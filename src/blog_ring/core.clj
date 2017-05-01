@@ -26,7 +26,7 @@
 
 (defn -main []
   (jetty/run-jetty (-> #'handler
-                       (wrap-reload )
-                       (wrap-keyword-params )
+                       (wrap-reload)
+                       (wrap-keyword-params)
                        (wrap-params))
-    {:port 3000}))
+                   {:port 3000}))
