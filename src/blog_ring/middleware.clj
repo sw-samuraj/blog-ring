@@ -1,5 +1,4 @@
-(ns blog-ring.middleware
-  (:require [ring.util.response :as response]))
+(ns blog-ring.middleware)
 
 (defn wrap-no-content
   "Middleware that returns a 204 No Content
