@@ -6,7 +6,9 @@
   [handler]
   (fn [request]
     (let [response (handler request)]
-      (assoc response :status 204))))
+      (-> response
+          (assoc :status 204)
+          (dissoc :body)))))
 
 (defn wrap-put-allowed
   "Middleware that returns a 405 Method Not Allowed
@@ -16,7 +18,9 @@
     (if (= (:request-method request) :put)
       (handler request)
       (let [response (handler request)]
-        (assoc response :status 405)))))
+        (-> response
+            (assoc :status 405)
+            (assoc :body "Method Not Allowed"))))))
 
 (defn wrap-put-no-content
   "Middleware that returns a 204 No Content

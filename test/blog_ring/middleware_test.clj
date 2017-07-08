@@ -8,25 +8,38 @@
 
 (defn- handler [request]
   {:status  200
-   :headers {}})
+   :headers {}
+   :body "OK"})
 
 (deftest test-no-content
   (testing "no content via identity"
-    (is (= 204 (:status ((wrap-no-content identity) {})))))
+    (let [response ((wrap-no-content identity) {})]
+      (is (= 204 (:status response)))
+      (is (nil? (:body response)))))
 
   (testing "no content with a handler"
-    (is (= 204 (:status ((wrap-no-content handler) {}))))))
+    (let [response ((wrap-no-content handler) {})]
+      (is (= 204 (:status response)))
+      (is (nil? (:body response))))))
 
 (deftest test-put-allowed
   (testing "put method returns 200"
-    (is (= 200 (:status ((wrap-put-allowed handler) put-request)))))
+    (let [response ((wrap-put-allowed handler) put-request)]
+      (is (= 200 (:status response)))
+      (is (= "OK" (:body response)))))
 
   (testing "get method returns 405"
-    (is (= 405 (:status ((wrap-put-allowed handler) get-request))))))
+    (let [response ((wrap-put-allowed handler) get-request)]
+      (is (= 405 (:status response)))
+      (is (= "Method Not Allowed" (:body response))))))
 
 (deftest test-put-no-content
   (testing "put method returns 204"
-    (is (= 204 (:status ((wrap-put-no-content handler) put-request)))))
+    (let [response ((wrap-put-no-content handler) put-request)]
+      (is (= 204 (:status response)))
+      (is (nil? (:body response)))))
 
   (testing "get method returns 405"
-    (is (= 405 (:status ((wrap-put-no-content handler) get-request))))))
+    (let [response ((wrap-put-no-content handler) get-request)]
+      (is (= 405 (:status response)))
+      (is (= "Method Not Allowed" (:body response))))))
