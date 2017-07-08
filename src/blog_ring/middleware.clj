@@ -17,3 +17,12 @@
       (handler request)
       (let [response (handler request)]
         (assoc response :status 405)))))
+
+(defn wrap-put-no-content
+  "Middleware that returns a 204 No Content
+  if the request method is PUT, otherwise
+  a 405 Method Not Allowed."
+  [handler]
+  (-> handler
+      wrap-no-content
+      wrap-put-allowed))

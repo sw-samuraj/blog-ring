@@ -18,8 +18,15 @@
     (is (= 204 (:status ((wrap-no-content handler) {}))))))
 
 (deftest test-put-allowed
-  (testing "put method returns 204"
+  (testing "put method returns 200"
     (is (= 200 (:status ((wrap-put-allowed handler) put-request)))))
 
   (testing "get method returns 405"
-    (is (= 405 (:status ((wrap-put-allowed identity) get-request))))))
+    (is (= 405 (:status ((wrap-put-allowed handler) get-request))))))
+
+(deftest test-put-no-content
+  (testing "put method returns 204"
+    (is (= 204 (:status ((wrap-put-no-content handler) put-request)))))
+
+  (testing "get method returns 405"
+    (is (= 405 (:status ((wrap-put-no-content handler) get-request))))))
