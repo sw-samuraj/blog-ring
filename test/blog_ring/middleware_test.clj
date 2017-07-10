@@ -9,7 +9,7 @@
 (defn- handler [request]
   {:status  200
    :headers {}
-   :body "OK"})
+   :body    "OK"})
 
 (deftest test-no-content
   (testing "no content via identity"
@@ -43,3 +43,12 @@
     (let [response ((wrap-put-no-content handler) get-request)]
       (is (= 405 (:status response)))
       (is (= "Method Not Allowed" (:body response))))))
+
+(deftest test-blank-middleware
+  (testing "blank middleware via identity"
+    (is (empty? ((wrap-blank-middleware identity) {}))))
+
+  (testing "blank middleware via handler"
+    (let [response ((wrap-blank-middleware handler) {})]
+      (is (= 200 (:status response)))
+      (is (= "OK" (:body response))))))

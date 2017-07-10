@@ -30,3 +30,13 @@
   (-> handler
       wrap-no-content
       wrap-put-allowed))
+
+(defn wrap-blank-middleware
+  "Blank middleware demonstrating common structure."
+  [handler]
+  (fn [request]
+    ; Do some magic with the request
+    (let [response (handler request)]
+      ; Do some magic with the response
+      ; and return the response.
+      response)))
