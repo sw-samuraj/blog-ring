@@ -28,8 +28,8 @@
   a 405 Method Not Allowed."
   [handler]
   (-> handler
-      wrap-no-content
-      wrap-put-allowed))
+      (wrap-no-content)
+      (wrap-put-allowed)))
 
 (defn wrap-blank-middleware
   "Blank middleware demonstrating common structure."
